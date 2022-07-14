@@ -15,59 +15,9 @@
           alt="logo-santuario"
         />
         <nav class="menu_nav menu_nav_coming">
-          <ul class="menu_ul">
-            <li>
-              <a class="portal" href="https://misericordia.org.br/">Portal</a>
-            </li>
-            <li>
-              <a class="formacao" href="https://misericordia.org.br/formacao/"
-                >Formação</a
-              >
-            </li>
-            <li>
-              <a class="noticias" href="https://misericordia.org.br/noticias/"
-                >Notícias</a
-              >
-            </li>
-            <li>
-              <a class="santuario" href="https://misericordia.org.br/santuario/"
-                >Santuário</a
-              >
-            </li>
-            <li>
-              <a href="https://www.editoradivinamisericordia.com/">Editora</a>
-            </li>
-            <li>
-              <a class="eventos" href="https://misericordia.org.br/eventos/"
-                >Eventos</a
-              >
-            </li>
-            <li>
-              <a class="marianos" href="https://misericordia.org.br/marianos/"
-                >Marianos</a
-              >
-            </li>
-            <li>
-              <a href="https://agentedamisericordia.com.br/doe/">Agente</a>
-            </li>
-          </ul>
+          <ul class="menu_ul"></ul>
         </nav>
-        <div class="menu_search menu_search_going">
-          <div class="menu_form">
-            <form onsubmit="pesquisar()">
-              <input type="text" name="" placeholder="Pesquisar..." />
-            </form>
-            <button onclick="fecharPesquisar()">X</button>
-          </div>
-        </div>
         <div class="menu_icons">
-          <img
-            class="magnifier"
-            onclick="abrirPesquisar()"
-            src="https://misericordia.org.br/site/wp-content/uploads/2022/07/search.png"
-            alt="pesquisar"
-          />
-          <p>|</p>
           <img
             onclick="loja()"
             src="https://stg.misericordia.org.br/site/wp-content/uploads/2021/12/shop-sacolinha.png"
@@ -222,41 +172,84 @@
     </header>
   </body>
 
-  <script type="text/javascript">
-    var corsAnywhere = "https://cors-anywhere.herokuapp.com/";
-    var target = "https://www.google.com.br/";
-    var url = `${corsAnywhere}${target}`;
+  <script>
+    const corsAnywhere = "https://corsanywhere.herokuapp.com/";
+    const target = "https://misericordia.org.br/menu-global-iframe/";
+    const url = `${corsAnywhere}${target}`;
 
     fetch(url)
       .then((response) => response.text())
-      .then((response) => console.log(response))
+      .then((response) => scraping(response, "text/html"))
       .catch((err) => console.log(err));
 
     function scraping(string_html, content_type) {
       let parser = new DOMParser();
       let doc = parser.parseFromString(string_html, content_type);
-      console.log(doc);
-    }
+      const nav = doc.querySelector("#menu-menuglobal").querySelectorAll("a");
+      const menu_ul = document.querySelector(".menu_ul");
+      [...nav].forEach((element) => {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        const className = element.innerText
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase();
+        a.classList.add(className);
+        a.href = element.href;
+        a.innerText = element.innerText;
+        if (
+          window.location.href.includes("Formação") &&
+          className === "formacao"
+        ) {
+          li.style.color = "#184FA7";
+          const image = document.querySelector(".menu_image");
+          image.src =
+            "https://misericordia.org.br/site/wp-content/uploads/2021/12/Logotipo_1.png";
+        } else if (
+          window.location.href.includes("Notícias") &&
+          className === "noticias"
+        ) {
+          li.style.color = "#DC3A23";
+          const image = document.querySelector(".menu_image");
+          image.src =
+            "https://misericordia.org.br/site/wp-content/uploads/2021/12/Logotipo_2.png";
+        } else if (
+          window.location.href.includes("Santuário") &&
+          className === "santuario"
+        ) {
+          li.style.color = "#234E76";
+          const image = document.querySelector(".menu_image");
+          image.src =
+            "https://misericordia.org.br/site/wp-content/uploads/2021/12/Logotipo_5.png";
+        } else if (
+          window.location.href.includes("Marianos") &&
+          className === "marianos"
+        ) {
+          li.style.color = "#009BDB";
+          const image = document.querySelector(".menu_image");
+          image.src =
+            "https://misericordia.org.br/site/wp-content/uploads/2021/12/Logotipo_4.png";
+        } else if (
+          window.location.href.includes("Eventos") &&
+          className === "eventos"
+        ) {
+          li.style.color = "#009A82";
+          const image = document.querySelector(".menu_image");
+          image.src =
+            "https://misericordia.org.br/site/wp-content/uploads/2021/12/Logotipo-1.png";
+        } else if (
+          window.location.href === "https://misericordia.org.br/" &&
+          className === "portal"
+        ) {
+          li.style.color = "#9F3B69";
+          const image = document.querySelector(".menu_image");
+          image.src =
+            "https://misericordia.org.br/site/wp-content/uploads/2021/12/Logotipo.png";
+        }
 
-    function abrirPesquisar() {
-      const menuSearch = document.querySelector(".menu_search");
-      const menuNav = document.querySelector(".menu_nav");
-      menuSearch.classList.remove("menu_search_going");
-      menuSearch.classList.add("menu_search_coming");
-      menuNav.classList.remove("menu_nav_coming");
-      menuNav.classList.add("menu_nav_going");
-    }
-    function fecharPesquisar() {
-      const menuSearch = document.querySelector(".menu_search");
-      const menuNav = document.querySelector(".menu_nav");
-      menuSearch.classList.remove("menu_search_coming");
-      menuSearch.classList.add("menu_search_going");
-      menuNav.classList.remove("menu_nav_going");
-      menuNav.classList.add("menu_nav_coming");
-    }
-    function pesquisar() {
-      event.preventDefault();
-      // window.location.href = `https://misericordia.org.br/?s=${event.target[0].value}`;
+        li.append(a);
+        menu_ul.append(li);
+      });
     }
 
     function dropMenu() {
@@ -281,49 +274,6 @@
         "https://www.youtube.com/user/apostolomisericordia",
         "_blank"
       );
-    }
-
-    if (window.location.href.includes("Formação")) {
-      const li = document.querySelector(".formacao");
-      li.style.color = "#184FA7";
-
-      const image = document.querySelector(".menu_image");
-      image.src =
-        "https://misericordia.org.br/site/wp-content/uploads/2021/12/Logotipo_1.png";
-    } else if (window.location.href.includes("Notícias")) {
-      const li = document.querySelector(".noticias");
-      li.style.color = "#DC3A23";
-
-      const image = document.querySelector(".menu_image");
-      image.src =
-        "https://misericordia.org.br/site/wp-content/uploads/2021/12/Logotipo_2.png";
-    } else if (window.location.href.includes("Santuário")) {
-      const li = document.querySelector(".santuario");
-      li.style.color = "#234E76";
-
-      const image = document.querySelector(".menu_image");
-      image.src =
-        "https://misericordia.org.br/site/wp-content/uploads/2021/12/Logotipo_5.png";
-    } else if (window.location.href.includes("Marianos")) {
-      const li = document.querySelector(".marianos");
-      li.style.color = "#009BDB";
-
-      const image = document.querySelector(".menu_image");
-      image.src =
-        "https://misericordia.org.br/site/wp-content/uploads/2021/12/Logotipo_4.png";
-    } else if (window.location.href.includes("Eventos")) {
-      const li = document.querySelector(".eventos");
-      li.style.color = "#009A82";
-
-      const image = document.querySelector(".menu_image");
-      image.src =
-        "https://misericordia.org.br/site/wp-content/uploads/2021/12/Logotipo-1.png";
-    } else {
-      const li = document.querySelector(".portal");
-      li.style.color = "#9F3B69";
-      const image = document.querySelector(".menu_image");
-      image.src =
-        "https://misericordia.org.br/site/wp-content/uploads/2021/12/Logotipo.png";
     }
   </script>
   <style>
@@ -421,9 +371,6 @@
       padding: 10px;
       cursor: pointer;
     }
-    .magnifier {
-      width: 20px;
-    }
     .menu_mobile {
       display: flex;
       align-items: center;
@@ -497,40 +444,10 @@
       padding: 0 10px;
     }
 
-    .menu_search_going {
-      display: none;
-      align-items: center;
-      animation: going 0.5s;
-      animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
-    }
-
-    .menu_search_coming {
-      display: none;
-      align-items: center;
-      animation: coming 0.5s;
-      animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
-    }
-
     .menu_form {
       display: flex;
       width: 60vw;
       padding-left: 40px;
-    }
-    .menu_search form,
-    input {
-      width: 60%;
-    }
-
-    .menu_search input {
-      border: none;
-    }
-
-    .menu_search button {
-      border: none;
-      background-color: transparent;
-      font-size: 18px;
-      font-weight: 500;
-      cursor: pointer;
     }
 
     @media (min-width: 980px) {
