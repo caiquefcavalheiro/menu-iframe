@@ -38,134 +38,8 @@
               alt="menu"
             />
             <div class="menu_drop">
-              <h3>Santuário</h3>
-              <ul>
-                <li>
-                  <a href="https://misericordia.org.br/missao-visao-e-valores/"
-                    >Missão, visão e valores</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://misericordia.org.br/santuario-divina-misericordia/"
-                    >História</a
-                  >
-                </li>
-              </ul>
-              <h3>Devoção</h3>
-              <ul>
-                <li>
-                  <a
-                    href="https://misericordia.org.br/devocao/formas-de-devocao-divina-misericordia/a-historia-da-imagem/"
-                    >Imagem de jesus Misericordioso</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://misericordia.org.br/devocao/formas-de-devocao-divina-misericordia/festa-da-divina-misericordia/"
-                    >Festa da Divina Misericórdia</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://misericordia.org.br/devocao/formas-de-devocao-divina-misericordia/hora-da-misericordia/"
-                    >Hora da Misericórdia</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://misericordia.org.br/devocao/formas-de-devocao-divina-misericordia/novena-a-divina-misericordia/"
-                    >Novena à Divina Misericórdia</a
-                  >
-                </li>
-                <li><a href="#">Terço</a></li>
-                <li>
-                  <a
-                    href="https://misericordia.org.br/devocao/maria-mae-da-misericordia/"
-                    >Mãe da Misericórdia, Maria Santíssima</a
-                  >
-                </li>
-                <li>
-                  <a href="https://misericordia.org.br/devocao/santafaustina/"
-                    >Santa Faustina</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://misericordia.org.br/devocao/diario-de-santa-faustina-kowalska/"
-                    >Diário de Santa Faustina Kowalska</a
-                  >
-                </li>
-                <li>
-                  <a href="https://misericordia.org.br/reliquias/">Reliquias</a>
-                </li>
-                <li>
-                  <a
-                    href="https://misericordia.org.br/religiosos-santuario-divina-misericordia/"
-                    >Religiosos</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://misericordia.org.br/santuario-divina-misericordia/localizacao/"
-                    >Localização</a
-                  >
-                </li>
-              </ul>
-              <h3>Evangelização</h3>
-              <ul>
-                <li>
-                  <a href="https://misericordia.org.br/peregrinacoes/"
-                    >Peregrinações</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://misericordia.org.br/pastorais-e-movimentos/grupo-de-oracao/"
-                    >Grupo de Oração</a
-                  >
-                </li>
-                <li>
-                  <a href="https://misericordia.org.br/pastorais-e-movimentos/"
-                    >Pastorais</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://misericordia.org.br/santuario-divina-misericordia/lojasantuario/"
-                    >Serviços</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://misericordia.org.br/santuario-divina-misericordia/horarios/"
-                    >Horários</a
-                  >
-                </li>
-              </ul>
-              <h3>Ajude-nos</h3>
-              <ul>
-                <li>
-                  <a
-                    href="https://misericordia.org.br/categoria/campanha-do-dizimo/"
-                    >Campanha do Dízimo</a
-                  >
-                </li>
-                <li>
-                  <a href="https://misericordia.org.br/portal/fale-conosco/"
-                    >Contato</a
-                  >
-                </li>
-              </ul>
+              <ul class="menu_drop_ul"></ul>
             </div>
-          </div>
-          <p class="menu_mobile_p">|</p>
-          <div class="menu_scroll">
-            <img
-              onclick="fimDaPagina()"
-              src="https://misericordia.org.br/site/wp-content/uploads/2022/07/grid-3x3-1.png"
-              alt="Ir para o fim da página"
-            />
           </div>
         </div>
       </div>
@@ -187,16 +61,23 @@
       let doc = parser.parseFromString(string_html, content_type);
       const nav = doc.querySelector("#menu-menuglobal").querySelectorAll("a");
       const menu_ul = document.querySelector(".menu_ul");
+      const menuDropUl = document.querySelector(".menu_drop_ul");
+
       [...nav].forEach((element) => {
         const li = document.createElement("li");
+        const liMenu = document.createElement("li");
+        const aMenu = document.createElement("a");
         const a = document.createElement("a");
         const className = element.innerText
           .normalize("NFD")
           .replace(/[\u0300-\u036f]/g, "")
           .toLowerCase();
         a.classList.add(className);
+        aMenu.classList.add(className);
         a.href = element.href;
+        aMenu.href = element.href;
         a.innerText = element.innerText;
+        aMenu.innerText = element.innerText;
         if (
           window.location.href.includes("Formação") &&
           className === "formacao"
@@ -248,6 +129,9 @@
         }
 
         li.append(a);
+        liMenu.append(aMenu);
+
+        menuDropUl.append(liMenu);
         menu_ul.append(li);
       });
     }
@@ -395,6 +279,7 @@
     .menu_drop {
       display: none;
       position: absolute;
+      font-weight: 700;
       background-color: #f9f9f9;
       min-width: 160px;
       box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
@@ -402,7 +287,6 @@
       z-index: 1;
       width: 270px;
       left: -170px;
-      height: 500px;
       overflow-y: scroll;
     }
     .menu_drop h3 {
