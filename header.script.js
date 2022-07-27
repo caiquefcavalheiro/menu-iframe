@@ -5,11 +5,13 @@ header.classList.add("menu_header");
 const headerDiv = document.createElement("div");
 headerDiv.classList.add("menu_div");
 
-const headerDivImg = document.createElement("img");
-headerDivImg.classList.add("menu_image");
-headerDivImg.src =
+const headerDivImg = document.createElement("div");
+headerDivImg.classList.add("menu_div_image");
+const headerImg = document.createElement("img");
+headerImg.classList.add("menu_image");
+headerImg.src =
   "https://misericordia.org.br/site/wp-content/uploads/2021/12/Logotipo.png";
-headerDivImg.alt = "logo-santuario";
+headerImg.alt = "logo-santuario";
 
 const headerNav = document.createElement("nav");
 headerNav.classList.add("menu_nav", "menu_nav_coming");
@@ -57,11 +59,12 @@ mobileContainer.append(mobileContainerImg, mobileMenuDrop);
 menuMobile.append(mobileContainer);
 iconsDiv.append(iconsImg1, iconsSeparator, iconsImg2);
 headerNav.append(headerNavUl);
+headerDivImg.append(headerImg);
 headerDiv.append(headerDivImg, headerNav, iconsDiv, menuMobile);
 header.append(headerDiv);
 body.prepend(header);
 
-const corsAnywhere = "https://corsanywhere.herokuapp.com/";
+const corsAnywhere = "https://fast-dawn-89938.herokuapp.com/";
 const target = "https://misericordia.org.br/menu-global-iframe/";
 const url = `${corsAnywhere}${target}`;
 

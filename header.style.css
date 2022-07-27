@@ -23,11 +23,16 @@
   display: flex;
   justify-content: center;
 }
+.menu_nav {
+  width: 70%;
+  justify-content: center;
+}
 
 .menu_div {
   display: flex;
   justify-content: space-around;
-  width: 80%;
+  width: 70%;
+  max-width: 800px;
 }
 
 .menu_nav_going {
@@ -50,7 +55,7 @@
 }
 .menu_ul {
   display: flex;
-  width: 60vw;
+  padding: 0;
   height: 100%;
   margin: 0;
   align-items: center;
@@ -59,7 +64,7 @@
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 24px;
   color: #515b63;
   padding-left: 10px;
@@ -85,6 +90,7 @@ a:active {
 
 .menu_icons {
   display: none;
+  justify-content: flex-end;
   align-items: center;
   width: 15%;
 }
@@ -172,6 +178,11 @@ input {
   display: flex;
   width: 60vw;
   padding-left: 40px;
+}
+
+.menu_div_image {
+  width: 15%;
+  text-align: center;
 }
 
 @media (min-width: 980px) {
